@@ -1,0 +1,3 @@
+[submodule "keystone"]
+	path = keystone
+	url = git@github.com:greenlightvr/greenlight-keystone.git

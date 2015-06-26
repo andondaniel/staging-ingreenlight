@@ -1,0 +1,31 @@
+machine:
+  environment:
+    LOG_NAME: greenlight-cms
+    DOCKER_EMAIL: deploy@blikk.co
+    DOCKER_USER: blikkdeploy
+    VERSION: 0.4.4
+    CLOUDINARY_URL: DONT_NEED_THIS
+    MONGO_URI: "mongodb://localhost/greenlight-cms-test"
+
+dependencies:
+  pre:
+    - sudo curl -L -o /usr/bin/docker 'http://s3-external-1.amazonaws.com/circle-downloads/docker-1.6.0-circleci'; sudo chmod 0755 /usr/bin/docker; true
+    - sudo service docker start
+    - docker login -e $DOCKER_EMAIL  -u $DOCKER_USER -p $DOCKER_PASSWORD
+
+checkout:
+  post:
+    - git submodule sync
+    - git submodule update --init
+
+test:
+  pre:
+    - docker login -e $DOCKER_EMAIL  -u $DOCKER_USER -p $DOCKER_PASSWORD
+
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker build -t blikk/greenlight-cms .
+      - docker tag blikk/greenlight-cms:latest blikk/greenlight-cms:$VERSION
+      - docker push blikk/greenlight-cms

@@ -1,0 +1,11 @@
+{
+  "ignore": [
+    ".git",
+    "*.less",
+    "*.jade",
+    "node_modules/**/node_modules",
+    "keystone/node_modules/",
+    "keystone/node_modules/**/node_modules",
+    "keustone/public/build"
+  ]
+}
